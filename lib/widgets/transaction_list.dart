@@ -7,20 +7,22 @@ class TransactionList extends StatelessWidget{
   TransactionList(this._userTransactions,this._deleteTx);
    @override
   Widget build(BuildContext context) {
+
     return Container(
-      //height: 400,
       width: double.infinity,
       child: _userTransactions.isEmpty ?
-          Column(
-            children: [
-              Text('No transactions added yet!',style: TextStyle(fontWeight: FontWeight.bold),),
-              SizedBox(height: 20.0,),
-              Container(
-                height: 200,
-                child: Image.asset('assets/images/waiting.png',fit: BoxFit.cover,),
-              )
-            ],
-          )
+          LayoutBuilder(builder: (ctx,constraints){
+            return Column(
+              children: [
+                Text('No transactions added yet!',style: TextStyle(fontWeight: FontWeight.bold),),
+                SizedBox(height: 20.0,),
+                Container(
+                  height: constraints.maxHeight * 0.6 ,
+                  child: Image.asset('assets/images/waiting.png',fit: BoxFit.cover,),
+                )
+              ],
+            );
+          })
           :ListView.builder(
         itemBuilder: (ctx,index){
           return Card(
@@ -65,6 +67,13 @@ class TransactionList extends StatelessWidget{
                   ],
                 ),
                 Expanded(child:SizedBox(height: 10,)),
+                MediaQuery.of(context).size.width > 360 ?
+                TextButton.icon(
+                  icon: Icon(Icons.delete),
+                  label: Text('Delete'),
+                  style: TextButton.styleFrom(primary: Theme.of(context).errorColor),
+                  onPressed: (){_deleteTx(_userTransactions[index].id);},
+                ):
                 IconButton(onPressed: ()=>_deleteTx(_userTransactions[index].id), icon: Icon(Icons.delete,color: Theme.of(context).errorColor,)),
 
               ],

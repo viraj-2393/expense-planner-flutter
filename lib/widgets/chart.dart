@@ -47,7 +47,7 @@ class Chart extends StatelessWidget{
                       totalSpending == 0.0 ? 0.0 : double.parse(data['amount'].toString())/totalSpending));
             }).toList(),
           ],
-        ),
+        ) ,
       ),
     );
   }
